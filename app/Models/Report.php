@@ -15,7 +15,8 @@ class Report extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
+        'serial_number',
+        'shift',
         'description',
         'user_id',
         'category_id',

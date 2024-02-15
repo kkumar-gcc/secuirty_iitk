@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PermissionsEnum;
 use App\Http\Requests\StoreReportRequest;
 use App\Http\Requests\UpdateReportRequest;
 use App\Models\Attachment;
@@ -32,7 +33,7 @@ class ReportController extends Controller
         $user = auth()->user();
 
         $reports = Report::query()
-            ->when($user->cannot('access-all-reports'), function ($query) use ($user) {
+            ->when($user->cannot(PermissionsEnum::ACCESS_ALL_REPORTS->value), function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             })
             ->when(request('search'), function ($query, $search) {
@@ -74,7 +75,7 @@ class ReportController extends Controller
     public function store(StoreReportRequest $request): RedirectResponse
     {
         $report = Report::create([
-            'title' => $request->title,
+            'shift' => $request->shift,
             'description' => $request->description,
             'status' => $request->status,
             'venue' => $request->venue,
@@ -111,7 +112,7 @@ class ReportController extends Controller
     public function show(Report $report): Response
     {
         return Inertia::render('Reports/Show', [
-            'report' => $report->load('users', 'comments', "attachments", "tags"),
+            'report' => $report->load('users', "attachments", "tags"),
         ]);
     }
 
@@ -132,7 +133,7 @@ class ReportController extends Controller
     public function update(UpdateReportRequest $request, Report $report): RedirectResponse
     {
         $report->update([
-            'title' => $request->title,
+            'shift' => $request->shift,
             'description' => $request->description,
             'status' => $request->status,
             'venue' => $request->venue,
@@ -204,7 +205,7 @@ class ReportController extends Controller
 
         $query->where(function ($query) use ($searchCriteria) {
             $fieldMappings = [
-                'title' => 'title',
+                'shift' => 'shift',
                 'description' => 'description',
                 'status' => 'status',
                 'open' => 'status',
@@ -214,7 +215,7 @@ class ReportController extends Controller
                 'tags' => 'tags',
                 'venue' => 'venue',
                 'reporter' => 'reporter',
-                'full' => ['title', 'description', 'venue', 'reporter']
+                'full' => ['description', 'venue', 'reporter']
             ];
 
             foreach ($searchCriteria as $key => $value) {

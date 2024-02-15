@@ -18,7 +18,7 @@ const props = defineProps({
 });
 
 const form = useForm({
-    title: props.report.title,
+    shift: props.report.shift,
     description: props.report.description,
     venue: props.report.venue,
     reporter: props.report.reporter,
@@ -33,6 +33,7 @@ const submit = () => {
 };
 
 const statusOptions = [
+    {value: 'normal', label: 'Normal'},
     {value: 'open', label: 'Open'},
     {value: 'in_progress', label: 'In Progress'},
     {value: 'resolved', label: 'Resolved'},
@@ -53,18 +54,18 @@ const searchTags = async (search) => {
 
     <form @submit.prevent="submit">
         <div>
-            <InputLabel for="name" value="Title"/>
+            <InputLabel for="name" value="Shift"/>
 
             <TextInput
-                id="title"
-                v-model="form.title"
+                id="Shift"
+                v-model="form.shift"
                 autocomplete="title"
                 autofocus
                 class="mt-1 block w-full"
                 type="text"
             />
 
-            <InputError :message="form.errors.title" class="mt-2"/>
+            <InputError :message="form.errors.shift" class="mt-2"/>
         </div>
 
         <div class="mt-4">

@@ -22,7 +22,7 @@ class UpdateReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'max:255'],
+            'shift' => ['required'],
             'status' => ['required'],
         ];
     }

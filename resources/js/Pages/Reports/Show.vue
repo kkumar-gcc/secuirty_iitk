@@ -12,11 +12,11 @@ defineProps({
 </script>
 
 <template>
-    <Head :title="report.title"/>
+    <Head :title="report.serial_number"/>
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Report - {{ report.title }}</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Report - {{ report.serial_number }}</h2>
             <div class="flex-1 flex justify-end">
                 <DownloadReport :key="report.id" :report="report">
                     Download
@@ -35,9 +35,9 @@ defineProps({
                     <div>
                         <div class="py-4 grid grid-cols-2 gap-4">
                             <div class="flex flex-col">
-                                <label class="block text-sm font-medium text-gray-700" for="title">Title</label>
+                                <label class="block text-sm font-medium text-gray-700" for="title">Shift</label>
                                 <div class="mt-1">
-                                    <input id="title" :value="report.title"
+                                    <input id="title" :value="report.serial_number"
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                            name="title"
                                            readonly

@@ -49,10 +49,10 @@ let showFilters = ref(String(props.filters.showFilters).toLowerCase() === 'true'
                                 <thead class="bg-gray-50 font-medium text-left">
                                 <tr>
                                     <th class="px-6 py-4 uppercase tracking-wider" scope="col">
-                                        #
+                                        S.NO.
                                     </th>
                                     <th class="px-6 py-4 uppercase tracking-wider" scope="col">
-                                        title
+                                        Shift
                                     </th>
                                     <th class="px-6 py-4 uppercase tracking-wider" scope="col">
                                         Description
@@ -87,13 +87,13 @@ let showFilters = ref(String(props.filters.showFilters).toLowerCase() === 'true'
                                 <template v-for="report in reports.data" :key="report.id">
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            {{ report.id }}
+                                            {{ report.serial_number }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <Link
                                                 :href="route('reports.show', report.id)"
                                             >
-                                                {{ report.title }}
+                                                {{ report.shift }}
                                             </Link>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
