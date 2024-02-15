@@ -12,6 +12,7 @@ import {ref} from "vue";
 import ViewAttachments from "@/Pages/Reports/Partials/ViewAttachments.vue";
 import DownloadReport from "@/Pages/Reports/Partials/DownloadReport.vue";
 import Tag from "@/Components/Tag.vue";
+import {statusOptions} from "@/Compositions/Constants.js";
 
 const props = defineProps({
     reports: Object,
@@ -111,7 +112,7 @@ let showFilters = ref(String(props.filters.showFilters).toLowerCase() === 'true'
                                             {{ report?.description?.substring(0,50) }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            {{ report.status }}
+                                            {{ statusOptions.find(option => option.value === report.status).label}}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <Tag v-if="report.approved" value="Approved" class="bg-green-100 text-green-800 border-green-400 hover:border-green-600"/>

@@ -6,6 +6,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import Paginator from "@/Components/Paginator.vue";
 import ViewTags from "@/Pages/Reports/Partials/ViewTags.vue";
 import ViewAttachments from "@/Pages/Reports/Partials/ViewAttachments.vue";
+import {statusOptions} from "@/Compositions/Constants.js";
 
 const props = defineProps({
     reports: Object,
@@ -90,7 +91,7 @@ const approveReport = async (reportId) => {
                                             {{ report?.description?.substring(0,50) }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            {{ report.status }}
+                                            {{ statusOptions.find(option => option.value === report.status).label}}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             {{ report.venue }}
