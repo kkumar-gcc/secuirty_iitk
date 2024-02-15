@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import {Head} from '@inertiajs/vue3';
+import {Head, useForm} from '@inertiajs/vue3';
 import DeleteReportForm from "@/Pages/Reports/Partials/DeleteReportForm.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import DownloadReport from "@/Pages/Reports/Partials/DownloadReport.vue";
@@ -9,6 +9,18 @@ import Tag from "@/Components/Tag.vue";
 defineProps({
     report: Object,
 });
+
+const form = useForm({});
+
+const approveReport = async (reportId) => {
+    if (confirm('Are you sure you want to approve this report?')) {
+        form.post(route('reports.approveOne', reportId), {
+            preserveScroll: true,
+            onSuccess: () => form.reset(),
+            onFinish: () => form.reset(),
+        });
+    }
+}
 </script>
 
 <template>
@@ -25,6 +37,13 @@ defineProps({
                     <DownloadReport :key="report.id" :report="report">
                         Download
                     </DownloadReport>
+                    <SecondaryButton
+                        @click="approveReport(report.id)"
+                        class="ml-2"
+                        v-if="can('approve reports') && !report.approved"
+                    >
+                        Approve
+                    </SecondaryButton>
                     <SecondaryButton
                         :href="route('reports.edit', report.id)"
                         class="ml-2"
