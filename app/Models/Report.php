@@ -21,6 +21,7 @@ class Report extends Model
         'user_id',
         'category_id',
         'status',
+        'approved',
         'venue',
         'reporter',
     ];

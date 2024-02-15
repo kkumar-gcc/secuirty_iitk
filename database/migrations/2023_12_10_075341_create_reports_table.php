@@ -12,12 +12,13 @@ return new class extends Migration {
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->string('serial_number')->nullable();
+            $table->string('serial_number')->unique();
             $table->text('description')->nullable();
             $table->string('shift')->nullable();
             $table->enum('status', ['open', 'in_progress', 'resolved', 'closed', 'normal'])->default('open');
             $table->string('venue')->nullable();
             $table->string('reporter')->nullable();
+            $table->boolean('approved')->default(false);
             $table->foreignId('user_id')
                 ->constrained("users")
                 ->onUpdate('cascade');

@@ -10,6 +10,7 @@ enum PermissionsEnum: string {
     case DELETE_USERS = "delete users";
     case ACCESS_ALL_REPORTS = "access all reports";
     case ACCESS_OWN_REPORTS = "access own reports";
+    case APPROVE_REPORTS = "approve reports";
     case CREATE_REPORTS = "create reports";
     case EDIT_ALL_REPORTS = "edit all reports";
     case EDIT_OWN_REPORTS = "edit own reports";

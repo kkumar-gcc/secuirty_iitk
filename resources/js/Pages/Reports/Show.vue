@@ -16,15 +16,26 @@ defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Report - {{ report.serial_number }}</h2>
-            <div class="flex-1 flex justify-end">
-                <DownloadReport :key="report.id" :report="report">
-                    Download
-                </DownloadReport>
-                <SecondaryButton :href="route('reports.edit', report.id)" class="ml-2">
-                    Edit Report
-                </SecondaryButton>
-                <DeleteReportForm :key="report.id" :report="report" class="ml-2"/>
+            <div class="flex flex-row">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Report - {{ report.serial_number }}</h2>
+                <div v-if="report.approved" class="ml-2">
+                    <Tag value="Approved" class="bg-green-100 text-green-800 border-green-400 hover:border-green-600"/>
+                </div>
+                <div class="flex-1 flex justify-end">
+                    <DownloadReport :key="report.id" :report="report">
+                        Download
+                    </DownloadReport>
+                    <SecondaryButton
+                        :href="route('reports.edit', report.id)"
+                        class="ml-2"
+                        v-if="can('edit own reports | edit all reports') && !report.approved"
+                    >
+                        Edit Report
+                    </SecondaryButton>
+                    <DeleteReportForm
+                        v-if="can('delete own reports | delete all reports') && !report.approved"
+                        :key="report.id" :report="report" class="ml-2"/>
+                </div>
             </div>
         </template>
 

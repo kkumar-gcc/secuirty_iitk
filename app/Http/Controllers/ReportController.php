@@ -9,6 +9,7 @@ use App\Models\Attachment;
 use App\Models\Report;
 use App\Models\Tag;
 use App\Services\ReportService;
+use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -31,7 +32,6 @@ class ReportController extends Controller
     public function index(): Response
     {
         $user = auth()->user();
-
         $reports = Report::query()
             ->when($user->cannot(PermissionsEnum::ACCESS_ALL_REPORTS->value), function ($query) use ($user) {
                 $query->where('user_id', $user->id);
@@ -75,6 +75,7 @@ class ReportController extends Controller
     public function store(StoreReportRequest $request): RedirectResponse
     {
         $report = Report::create([
+            'serial_number' => "new2",
             'shift' => $request->shift,
             'description' => $request->description,
             'status' => $request->status,
@@ -152,6 +153,38 @@ class ReportController extends Controller
         $report->tags()->sync($tagIds);
 
         return redirect()->route('reports.show', $report->id)->with('success', 'Report updated.');
+    }
+
+    public function approve(): Response
+    {
+        $this->authorize('approve', Report::class);
+        $reports = Report::query()
+            ->where('approved', false)
+            ->with(['attachments', 'tags'])
+            ->get();
+
+        return Inertia::render('Reports/Approve', [
+            'reports' => $reports,
+        ]);
+    }
+
+    public function approveOne(Report $report): RedirectResponse
+    {
+        $this->authorize('approveOne', $report);
+
+        $report->update(['approved' => true]);
+
+        return redirect()->route('reports.approve')->with('success', 'Report approved.');
+    }
+
+    public function approveAll(Request $request): RedirectResponse
+    {
+        $this->authorize('approveAll', Report::class);
+
+        $reportIds = $request->reports;
+        Report::whereIn('id', $reportIds)->update(['approved' => true]);
+
+        return redirect()->route('reports.index')->with('success', 'Reports approved.');
     }
 
     /**
