@@ -48,4 +48,9 @@ class Report extends Model
     {
         return $this->morphToMany(Attachment::class, 'attachable');
     }
+
+    public function remarks(): HasMany
+    {
+        return $this->hasMany(Remark::class);
+    }
 }

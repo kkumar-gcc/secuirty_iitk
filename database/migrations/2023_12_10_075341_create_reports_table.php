@@ -12,9 +12,10 @@ return new class extends Migration {
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('serial_number')->nullable();
             $table->text('description')->nullable();
-            $table->enum('status', ['open', 'in_progress', 'resolved', 'closed'])->default('open');
+            $table->string('shift')->nullable();
+            $table->enum('status', ['open', 'in_progress', 'resolved', 'closed', 'normal'])->default('open');
             $table->string('venue')->nullable();
             $table->string('reporter')->nullable();
             $table->foreignId('user_id')

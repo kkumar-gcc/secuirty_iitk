@@ -15,6 +15,13 @@ enum PermissionsEnum: string {
     case EDIT_OWN_REPORTS = "edit own reports";
     case DELETE_ALL_REPORTS = "delete all reports";
     case DELETE_OWN_REPORTS = "delete own reports";
+    case ACCESS_ALL_REMARKS = "access all remarks";
+    case ACCESS_OWN_REMARKS = "access own remarks";
+    case CREATE_REMARKS = "create remarks";
+    case EDIT_ALL_REMARKS = "edit all remarks";
+    case EDIT_OWN_REMARKS = "edit own remarks";
+    case DELETE_ALL_REMARKS = "delete all remarks";
+    case DELETE_OWN_REMARKS = "delete own remarks";
     case ACCESS_ROLES = "access roles";
     case CREATE_ROLES = "create roles";
     case EDIT_ROLES = "edit roles";
