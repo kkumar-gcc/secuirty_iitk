@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\PermissionsEnum;
+use App\Enums\StatusEnum;
 use App\Http\Requests\StoreReportRequest;
 use App\Http\Requests\UpdateReportRequest;
 use App\Models\Attachment;
@@ -287,8 +288,14 @@ class ReportController extends Controller
             default:
                 if (Str::startsWith($value, '"') && Str::endsWith($value, '"')) {
                     $value = trim($value, '"');
+                    if ($key == "status"){
+                        $value = StatusEnum::getValueFromLabel($value)->value;
+                    }
                     $query->orWhere($field, $value);
                 } else {
+                    if ($key == "status"){
+                        $value = StatusEnum::getValueFromLabel($value)->value;
+                    }
                     $query->orWhere($field, 'LIKE', "%{$value}%");
                 }
         }

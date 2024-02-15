@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\StatusEnum;
 
 return new class extends Migration {
     /**
@@ -15,7 +16,7 @@ return new class extends Migration {
             $table->string('serial_number')->unique();
             $table->text('description')->nullable();
             $table->string('shift')->nullable();
-            $table->enum('status', ['open', 'in_progress', 'resolved', 'closed', 'normal'])->default('open');
+            $table->enum('status', StatusEnum::getValues())->default(StatusEnum::NORMAL);
             $table->string('venue')->nullable();
             $table->string('reporter')->nullable();
             $table->boolean('approved')->default(false);
