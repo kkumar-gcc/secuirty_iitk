@@ -51,8 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::get('reports/export', [ReportController::class, 'export'])->name('reports.export');
     Route::get('reports/{report}/generate', [ReportController::class, 'generate'])->name('reports.generate');
     Route::resource('reports', ReportController::class);
-
-    Route::resource('reports.remarks', RemarkController::class);
+    Route::resource('reports.remarks', RemarkController::class)->shallow();
 
     Route::get('/tags', [TagController::class, 'index'])->name('tags.index');
     Route::get('/tags/create', [TagController::class, 'create'])->name('tags.create');

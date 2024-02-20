@@ -113,8 +113,16 @@ class ReportController extends Controller
      */
     public function show(Report $report): Response
     {
+        $remarks = [];
+        if (auth()->user()->can(PermissionsEnum::ACCESS_ALL_REMARKS->value)) {
+            $remarks = $report->remarks()->with('user')->get();
+        } elseif (auth()->user()->can(PermissionsEnum::ACCESS_OWN_REMARKS->value)) {
+            $remarks = $report->remarks()->where('user_id', auth()->user()->id)->with('user')->get();
+        }
+
         return Inertia::render('Reports/Show', [
-            'report' => $report->load('users', "attachments", "tags"),
+            'report' => $report->load(['attachments', 'tags']),
+            'remarks' => $remarks,
         ]);
     }
 
