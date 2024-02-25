@@ -76,7 +76,6 @@ class ReportController extends Controller
     public function store(StoreReportRequest $request): RedirectResponse
     {
         $report = Report::create([
-            'serial_number' => "new2",
             'shift' => $request->shift,
             'description' => $request->description,
             'status' => $request->status,

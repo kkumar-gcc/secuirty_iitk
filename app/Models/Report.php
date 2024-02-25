@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Attachable;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Report extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUlids;
 
     protected $fillable = [
         'serial_number',
@@ -54,5 +54,20 @@ class Report extends Model
     public function remarks(): HasMany
     {
         return $this->hasMany(Remark::class);
+    }
+
+    public function uniqueIds(): array
+    {
+        return ['serial_number'];
+    }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::deleting(function ($report) {
+            $report->attachments()->detach();
+            $report->tags()->detach();
+        });
     }
 }

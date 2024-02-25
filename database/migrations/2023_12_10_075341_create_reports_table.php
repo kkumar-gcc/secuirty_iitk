@@ -13,7 +13,7 @@ return new class extends Migration {
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->string('serial_number')->unique();
+            $table->ulid("serial_number")->unique();
             $table->text('description')->nullable();
             $table->string('shift')->nullable();
             $table->enum('status', StatusEnum::getValues())->default(StatusEnum::NORMAL);
