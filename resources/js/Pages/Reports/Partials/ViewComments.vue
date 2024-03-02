@@ -36,7 +36,7 @@ const props = defineProps({
                                     {{ comment.user.name }}
                                 </span>
                                 <div class="text-sm">
-                                    {{ comment.created_at }}
+                                    {{ $filters.formatDate(comment.created_at, true) }}
                                 </div>
                             </div>
                         </div>

@@ -105,8 +105,8 @@ const approveReport = async (reportId) => {
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <ViewAttachments :report="report"/>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            {{ report.created_at }}
+                                        <td class="px-6 py-4 whitespace-pre">
+                                            {{ $filters.formatDate(report.created_at) }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex flex-row">
                                             <SecondaryButton

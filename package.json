@@ -18,6 +18,7 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
-        "laravel-permission-to-vuejs": "^3.0.2"
+        "laravel-permission-to-vuejs": "^3.0.2",
+        "luxon": "^3.4.4"
     }
 }

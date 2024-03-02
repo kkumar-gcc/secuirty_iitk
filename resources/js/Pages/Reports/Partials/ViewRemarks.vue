@@ -49,8 +49,8 @@ const props = defineProps({
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         {{ remark.user.name }}
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        {{ remark.created_at }}
+                                    <td class="px-6 py-4 whitespace-pre">
+                                        {{ $filters.formatDate(remark.created_at) }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex flex-row">
                                         <UpdateRemarkForm
