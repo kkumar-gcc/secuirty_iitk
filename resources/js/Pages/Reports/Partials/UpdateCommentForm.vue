@@ -3,37 +3,35 @@ import Modal from '@/Components/Modal.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import {useForm} from '@inertiajs/vue3';
 import {ref} from 'vue';
-import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const props = defineProps({
-    report: {
+    comment: {
         type: Object,
     }
 })
-const confirmingRemarkCreation = ref(false);
+const confirmingCommentUpdate = ref(false);
 const form = useForm({
-    body: '',
+    body: props.comment.body,
 });
-
-const confirmRemarkCreation = () => {
-    confirmingRemarkCreation.value = true;
+const confirmCommentUpdate = () => {
+    confirmingCommentUpdate.value = true;
 };
 
 const submit = () => {
-    form.post(route('reports.remarks.store', props.report.id), {
+    form.put(route('comments.update', props.comment.id), {
         preserveScroll: true,
         onSuccess: () => {
             form.reset();
-            confirmingRemarkCreation.value = false;
+            confirmingCommentUpdate.value = false;
         },
     });
 };
 
 const closeModal = () => {
-    confirmingRemarkCreation.value = false;
+    confirmingCommentUpdate.value = false;
 
     form.reset();
 };
@@ -41,13 +39,17 @@ const closeModal = () => {
 
 <template>
     <section class="space-y-6">
-        <PrimaryButton @click="confirmRemarkCreation">Add Remark</PrimaryButton>
-
-        <Modal :show="confirmingRemarkCreation" @close="closeModal">
+        <button
+            @click="confirmCommentUpdate"
+            class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+        >
+            Edit
+        </button>
+        <Modal :show="confirmingCommentUpdate" @close="closeModal">
             <form @submit.prevent="submit">
                 <div class="p-6">
                     <h2 class="text-lg font-medium text-gray-900">
-                        Add Remark
+                        Edit Comment
                     </h2>
                     <div class="mt-4">
                         <TextInput
@@ -62,9 +64,10 @@ const closeModal = () => {
                     </div>
                     <div class="mt-6 flex justify-end">
                         <SecondaryButton @click="closeModal"> Cancel</SecondaryButton>
-                        <div v-if="can('create remarks')">
+
+                        <div v-if="can('edit own comments|edit all comments')">
                             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="ms-3">
-                                Create Remark
+                                Update Comment
                             </PrimaryButton>
                         </div>
                     </div>
