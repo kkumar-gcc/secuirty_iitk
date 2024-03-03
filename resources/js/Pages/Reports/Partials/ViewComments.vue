@@ -7,6 +7,8 @@ import DeleteCommentForm from "@/Pages/Reports/Partials/DeleteCommentForm.vue";
 import UpdateCommentForm from "@/Pages/Reports/Partials/UpdateCommentForm.vue";
 import formatDate from "../../../Compositions/DateTime.js";
 import {inject} from "vue";
+import KebabHorizontal from "@/Components/icons/KebabHorizontal.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 const props = defineProps({
     report: {
@@ -29,10 +31,6 @@ const canEditComment = () => {
 const canDeleteComment = () => {
     return can('delete own comments | delete all comments');
 };
-
-const getUserInitials = (userName) => {
-    return userName.substring(0, 2).toUpperCase();
-};
 </script>
 
 <template>
@@ -44,7 +42,7 @@ const getUserInitials = (userName) => {
             <div
                 v-for="comment in comments.data"
                 :key="comment.id"
-                class="p-4 border border-gray-200 rounded-lg shadow-sm"
+                class="p-4 border border-gray-200 rounded-lg shadow-sm group"
             >
                 <!-- Comment header -->
                 <div class="flex items-center justify-between">
@@ -56,12 +54,10 @@ const getUserInitials = (userName) => {
                         </div>
                     </div>
                     <!-- Dropdown for edit and delete options -->
-                    <div v-if="showDropdown()">
+                    <div v-if="showDropdown()" class="hidden group-hover:flex">
                         <Dropdown align="right" width="48">
                             <template #trigger>
-                                <button class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-500 bg-white border border-gray-300 rounded-full hover:text-gray-700 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200">
-                                    {{ getUserInitials(comment.user.name) }}
-                                </button>
+                                <SecondaryButton class=""><KebabHorizontal /></SecondaryButton>
                             </template>
                             <template #content>
                                 <UpdateCommentForm v-if="canEditComment()" :comment="comment" />
