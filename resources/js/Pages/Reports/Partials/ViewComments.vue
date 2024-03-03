@@ -5,6 +5,8 @@ import Avatar from "@/Components/Avatar.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import DeleteCommentForm from "@/Pages/Reports/Partials/DeleteCommentForm.vue";
 import UpdateCommentForm from "@/Pages/Reports/Partials/UpdateCommentForm.vue";
+import formatDate from "../../../Compositions/DateTime.js";
+import {inject} from "vue";
 
 const props = defineProps({
     report: {
@@ -14,6 +16,23 @@ const props = defineProps({
         type: Object,
     }
 })
+
+const can = inject('can')
+const showDropdown = () => {
+    return can('edit own comments | edit all comments | delete own comments | delete all comments');
+};
+
+const canEditComment = () => {
+    return can('edit own comments | edit all comments');
+};
+
+const canDeleteComment = () => {
+    return can('delete own comments | delete all comments');
+};
+
+const getUserInitials = (userName) => {
+    return userName.substring(0, 2).toUpperCase();
+};
 </script>
 
 <template>
@@ -21,55 +40,41 @@ const props = defineProps({
     <div class="py-4">
         <CreateCommentForm :report="report"/>
 
-        <div class="my-3">
+        <div class="mt-4 space-y-4">
             <div
                 v-for="comment in comments.data"
                 :key="comment.id"
-                class="p-1 px-2 md:p-2.5 border group border-gray-200 relative mt-4 first:mt-0 w-full text-base text-left rounded-lg font-normal shadow-sm hover:shadow-md"
+                class="p-4 border border-gray-200 rounded-lg shadow-sm"
             >
-                <header class="flex flex-row not-prose">
-                    <div class="flex-1">
-                        <div class="flex items-center space-x-4">
-                            <Avatar :user="comment.user"/>
-                            <div class="font-medium">
-                                <span>
-                                    {{ comment.user.name }}
-                                </span>
-                                <div class="text-sm">
-                                    {{ $filters.formatDate(comment.created_at, true) }}
-                                </div>
-                            </div>
+                <!-- Comment header -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <Avatar :user="comment.user" />
+                        <div class="font-medium">
+                            <span>{{ comment.user.name }}</span>
+                            <div class="text-sm text-gray-500">{{ formatDate(comment.created_at, true) }}</div>
                         </div>
                     </div>
-                    <div
-                        class="items-center justify-end hidden group-hover:flex"
-                        v-if="can('edit own comments | edit all comments | delete own comments | delete all comments')"
-                    >
+                    <!-- Dropdown for edit and delete options -->
+                    <div v-if="showDropdown()">
                         <Dropdown align="right" width="48">
                             <template #trigger>
-                                <span class="inline-flex rounded-md">
-                                    <button
-                                        class="inline-flex items-center px-3 py-3 border rounded-full text-sm leading-4 font-medium text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                                        type="button"
-                                    >
-                                        {{ $page.props.auth.user.name.substring(0, 2).toUpperCase() }}
-                                    </button>
-                                </span>
+                                <button class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-500 bg-white border border-gray-300 rounded-full hover:text-gray-700 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200">
+                                    {{ getUserInitials(comment.user.name) }}
+                                </button>
                             </template>
-
                             <template #content>
-                                <UpdateCommentForm :comment="comment" v-if="can('edit own comments | edit all comments')"/>
-                                <DeleteCommentForm :comment="comment" v-if="can('delete own comments | delete all comments')"/>
+                                <UpdateCommentForm v-if="canEditComment()" :comment="comment" />
+                                <DeleteCommentForm v-if="canDeleteComment()" :comment="comment" />
                             </template>
                         </Dropdown>
                     </div>
-                </header>
-                <div class="my-3 prose max-w-none sm:max-w-full prose-img:rounded-xl prose-a:text-skin-600 ">
-                    <div>
-                        {{comment.body}}
-                    </div>
                 </div>
+
+                <!-- Comment body -->
+                <div class="mt-2 prose max-w-none sm:max-w-full prose-img:rounded-xl prose-a:text-rose-600">{{ comment.body }}</div>
             </div>
+            <!-- Paginator for comment pagination -->
             <Paginator :paginator="comments" />
         </div>
     </div>

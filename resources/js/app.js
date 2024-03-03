@@ -32,6 +32,8 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(LaravelPermissionToVueJS)
+            .provide("can", app.config.globalProperties.can)
+            .provide("is", app.config.globalProperties.is)
             .directive('clickout', clickoutDirective)
             .mount(el);
     },
