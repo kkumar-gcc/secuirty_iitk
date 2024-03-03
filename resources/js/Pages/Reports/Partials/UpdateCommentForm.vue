@@ -2,7 +2,7 @@
 import Modal from '@/Components/Modal.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import {useForm} from '@inertiajs/vue3';
-import {ref} from 'vue';
+import {inject, ref} from 'vue';
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
@@ -35,6 +35,11 @@ const closeModal = () => {
 
     form.reset();
 };
+
+const can = inject('can')
+const canEditComments = () => {
+    return can('edit own comments | edit all comments');
+};
 </script>
 
 <template>
@@ -65,11 +70,12 @@ const closeModal = () => {
                     <div class="mt-6 flex justify-end">
                         <SecondaryButton @click="closeModal"> Cancel</SecondaryButton>
 
-                        <div v-if="can('edit own comments|edit all comments')">
-                            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="ms-3">
+                        <template v-if="canEditComments()">
+                            <PrimaryButton :class="{ 'opacity-25': form.processing }"
+                                           :disabled="form.processing" class="ms-3">
                                 Update Comment
                             </PrimaryButton>
-                        </div>
+                        </template>
                     </div>
                 </div>
             </form>

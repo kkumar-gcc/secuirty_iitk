@@ -8,6 +8,7 @@ import Tag from "@/Components/Tag.vue";
 import CreateRemarkForm from "@/Pages/Reports/Partials/CreateRemarkForm.vue";
 import ViewRemarks from "@/Pages/Reports/Partials/ViewRemarks.vue";
 import ViewComments from "@/Pages/Reports/Partials/ViewComments.vue";
+import {inject} from "vue";
 
 defineProps({
     report: Object,
@@ -42,6 +43,22 @@ const getHeadingClass = (inline) => {
     return inline ? 'inline-block mr-2' : '';
 };
 
+const can = inject('can');
+const canEditReports = () => {
+    return can('edit own reports | edit all reports');
+};
+
+const canDeleteReports = () => {
+    return can('delete own reports | delete all reports');
+};
+
+const canApproveReports = () => {
+    return can('approve reports');
+};
+
+const canCreateRemarks = () => {
+    return can('create remarks');
+};
 </script>
 
 <template>
@@ -53,16 +70,19 @@ const getHeadingClass = (inline) => {
                 <Tag v-if="report.approved" class="ml-2 bg-green-100 text-green-800 border-green-400 hover:border-green-600"
                      value="Approved"/>
                 <div class="flex-1 flex justify-end">
-                    <CreateRemarkForm v-if="can('create remarks')" :key="report.id" :report="report" class="ml-2"/>
+                    <template v-if="canCreateRemarks()">
+                        <CreateRemarkForm :key="report.id" :report="report" class="ml-2"/>
+                    </template>
                     <DownloadReport :key="report.id" :report="report">Download</DownloadReport>
-                    <SecondaryButton v-if="can('approve reports') && !report.approved" class="ml-2"
-                                     @click="approveReport(report.id)">Approve
-                    </SecondaryButton>
-                    <SecondaryButton v-if="can('edit own reports | edit all reports') && !report.approved"
-                                     :href="route('reports.edit', report.id)" class="ml-2">Edit Report
-                    </SecondaryButton>
-                    <DeleteReportForm v-if="can('delete own reports | delete all reports') && !report.approved"
-                                      :key="report.id" :report="report" class="ml-2"/>
+                    <template v-if="canApproveReports() && !report.approved">
+                        <SecondaryButton class="ml-2" @click="approveReport(report.id)">Approve</SecondaryButton>
+                    </template>
+                    <template v-if="canEditReports() && !report.approved">
+                        <SecondaryButton :href="route('reports.edit', report.id)" class="ml-2">Edit Report</SecondaryButton>
+                    </template>
+                    <template v-if="canDeleteReports() && !report.approved">
+                        <DeleteReportForm :key="report.id" :report="report" class="ml-2"/>
+                    </template>
                 </div>
             </div>
         </template>
