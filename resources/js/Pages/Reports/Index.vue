@@ -18,6 +18,7 @@ import Download from "@/Components/icons/Download.vue";
 import Check from "@/Components/icons/Check.vue";
 import Export from "@/Components/icons/Export.vue";
 import Filter from "@/Components/icons/Filter.vue";
+import formatDate from "../../Compositions/DateTime.js";
 
 const props = defineProps({
     reports: Object,
@@ -125,7 +126,7 @@ const canDeleteReports = () => {
                                             <ViewAttachments :report="report"/>
                                         </td>
                                         <td class="px-6 py-4 whitespace-pre">
-                                            {{ $filters.formatDate(report.created_at) }}
+                                            {{ formatDate(report.created_at) }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex flex-row">
                                             <DownloadReport :key="report.id" :report="report"><Download/></DownloadReport>

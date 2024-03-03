@@ -8,6 +8,7 @@ import ViewTags from "@/Pages/Reports/Partials/ViewTags.vue";
 import ViewAttachments from "@/Pages/Reports/Partials/ViewAttachments.vue";
 import {statusOptions} from "@/Compositions/Constants.js";
 import Check from "@/Components/icons/Check.vue";
+import formatDate from "../../Compositions/DateTime.js";
 
 const props = defineProps({
     reports: Object,
@@ -93,7 +94,7 @@ const tableHeaders = [
                                             <ViewAttachments :report="report"/>
                                         </td>
                                         <td class="px-6 py-4 whitespace-pre">
-                                            {{ $filters.formatDate(report.created_at) }}
+                                            {{ formatDate(report.created_at) }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex flex-row">
                                             <SecondaryButton

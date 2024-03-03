@@ -70,8 +70,10 @@ const canCreateRemarks = () => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex flex-row">
-                <Tag v-if="report.approved" class="ml-2 bg-green-100 text-green-800 border-green-400 hover:border-green-600"
-                     value="Approved"/>
+                <Tag v-if="report.approved" class="bg-green-100 text-green-800 border-green-400 hover:border-green-600"
+                     value="approved"/>
+                <Tag v-else class="bg-green-100 text-green-800 border-green-400 hover:border-green-600"
+                     value="pending"/>
                 <div class="flex-1 flex justify-end">
                     <template v-if="canCreateRemarks()">
                         <CreateRemarkForm :key="report.id" :report="report" class="ml-2"/>
@@ -102,9 +104,8 @@ const canCreateRemarks = () => {
                             </template>
                         </div>
                     </template>
-                    <template v-else-if="field.key === 'attachments' && report[field.key].length > 0"
-                              class="grid grid-cols-3 gap-4">
-                        <div class="grid grid-cols-3 gap-4">
+                    <template v-else-if="field.key === 'attachments' && report[field.key].length > 0">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:md:grid-cols-4 gap-4">
                             <template v-for="attachment in report[field.key]">
                                 <div class="border shadow-sm rounded-lg bg-white">
                                     <img :alt="'preview of '+attachment.name" :src="attachment.path"
