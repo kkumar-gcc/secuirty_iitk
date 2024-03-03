@@ -5,8 +5,8 @@ import {useForm} from '@inertiajs/vue3';
 import {ref} from 'vue';
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
+import Add from "@/Components/icons/Add.vue";
 
 const props = defineProps({
     report: {
@@ -41,7 +41,7 @@ const closeModal = () => {
 
 <template>
     <section class="space-y-6">
-        <PrimaryButton @click="confirmRemarkCreation">Add Remark</PrimaryButton>
+        <PrimaryButton @click="confirmRemarkCreation"><Add /></PrimaryButton>
 
         <Modal :show="confirmingRemarkCreation" @close="closeModal">
             <form @submit.prevent="submit">

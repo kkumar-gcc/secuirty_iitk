@@ -13,6 +13,11 @@ import ViewAttachments from "@/Pages/Reports/Partials/ViewAttachments.vue";
 import DownloadReport from "@/Pages/Reports/Partials/DownloadReport.vue";
 import Tag from "@/Components/Tag.vue";
 import {statusOptions} from "@/Compositions/Constants.js";
+import Edit from "@/Components/icons/Edit.vue";
+import Download from "@/Components/icons/Download.vue";
+import Check from "@/Components/icons/Check.vue";
+import Export from "@/Components/icons/Export.vue";
+import Filter from "@/Components/icons/Filter.vue";
 
 const props = defineProps({
     reports: Object,
@@ -57,13 +62,13 @@ const canDeleteReports = () => {
             <div class="flex flex-row ">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">Reports</h2>
                 <div class="flex-1 flex justify-end">
-                    <DownloadReport>Export Reports</DownloadReport>
+                    <DownloadReport><Export/></DownloadReport>
 
                     <template v-if="canApproveReports()">
-                        <SecondaryButton :href="route('reports.approve')" class="ml-2">Approve Reports</SecondaryButton>
+                        <SecondaryButton :href="route('reports.approve')" class="ml-2"><Check/></SecondaryButton>
                     </template>
 
-                    <PrimaryButton @click="showFilters = !showFilters" class="ml-2">Filter</PrimaryButton>
+                    <PrimaryButton @click="showFilters = !showFilters" class="ml-2"><Filter/></PrimaryButton>
                 </div>
             </div>
             <div class="mt-4">
@@ -123,10 +128,10 @@ const canDeleteReports = () => {
                                             {{ $filters.formatDate(report.created_at) }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex flex-row">
-                                            <DownloadReport :key="report.id" :report="report">Download</DownloadReport>
+                                            <DownloadReport :key="report.id" :report="report"><Download/></DownloadReport>
 
                                             <template v-if="canEditReports() && !report.approved">
-                                                <SecondaryButton :href="route('reports.edit', report.id)" class="ml-2">Edit</SecondaryButton>
+                                                <SecondaryButton :href="route('reports.edit', report.id)" class="ml-2"><Edit/></SecondaryButton>
                                             </template>
 
                                             <template v-if="canDeleteReports() && !report.approved">

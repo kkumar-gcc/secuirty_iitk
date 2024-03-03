@@ -4,9 +4,9 @@ import SecondaryButton from '@/Components/SecondaryButton.vue';
 import {useForm} from '@inertiajs/vue3';
 import {ref} from 'vue';
 import TextInput from "@/Components/TextInput.vue";
-import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import Edit from "@/Components/icons/Edit.vue";
 
 const props = defineProps({
     remark: {
@@ -40,7 +40,7 @@ const closeModal = () => {
 
 <template>
     <section class="space-y-6">
-        <SecondaryButton @click="confirmRemarkUpdate">Edit</SecondaryButton>
+        <SecondaryButton @click="confirmRemarkUpdate"><Edit/></SecondaryButton>
 
         <Modal :show="confirmingRemarkUpdate" @close="closeModal">
             <form @submit.prevent="submit">

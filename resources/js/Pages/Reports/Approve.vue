@@ -7,6 +7,7 @@ import Paginator from "@/Components/Paginator.vue";
 import ViewTags from "@/Pages/Reports/Partials/ViewTags.vue";
 import ViewAttachments from "@/Pages/Reports/Partials/ViewAttachments.vue";
 import {statusOptions} from "@/Compositions/Constants.js";
+import Check from "@/Components/icons/Check.vue";
 
 const props = defineProps({
     reports: Object,
@@ -23,6 +24,19 @@ const approveReport = async (reportId) => {
         });
     }
 }
+
+const tableHeaders = [
+    'S.NO.',
+    'Shift',
+    'Description',
+    'Status',
+    'Venue',
+    'Reporter',
+    'Tags',
+    'Attachments',
+    'Created At',
+    'Action',
+];
 </script>
 
 
@@ -42,35 +56,8 @@ const approveReport = async (reportId) => {
                             <table class="min-w-full divide-y divide-gray-200 sm:rounded-lg">
                                 <thead class="bg-gray-50 font-medium text-left">
                                 <tr>
-                                    <th class="px-6 py-4 uppercase tracking-wider" scope="col">
-                                        S.NO.
-                                    </th>
-                                    <th class="px-6 py-4 uppercase tracking-wider" scope="col">
-                                        Shift
-                                    </th>
-                                    <th class="px-6 py-4 uppercase tracking-wider" scope="col">
-                                        Description
-                                    </th>
-                                    <th class="px-6 py-4 uppercase tracking-wider" scope="col">
-                                        Status
-                                    </th>
-                                    <th class="px-6 py-4 uppercase tracking-wider" scope="col">
-                                        Venue
-                                    </th>
-                                    <th class="px-6 py-4 uppercase tracking-wider" scope="col">
-                                        Reporter
-                                    </th>
-                                    <th class="px-6 py-4 uppercase tracking-wider" scope="col">
-                                        Tags
-                                    </th>
-                                    <th class="px-6 py-4 uppercase tracking-wider" scope="col">
-                                        Attachments
-                                    </th>
-                                    <th class="px-6 py-4 uppercase tracking-wider" scope="col">
-                                        Created At
-                                    </th>
-                                    <th class="relative px-6 py-4" scope="col">
-                                        <span class="sr-only">Edit</span>
+                                    <th v-for="(header, index) in tableHeaders" :key="index" class="px-6 py-4 uppercase tracking-wider" scope="col">
+                                        {{ header }}
                                     </th>
                                 </tr>
                                 </thead>
@@ -114,7 +101,7 @@ const approveReport = async (reportId) => {
                                                 class="ml-2"
                                                 v-if="can('approve reports')"
                                             >
-                                                Approve
+                                               <Check/>
                                             </SecondaryButton>
                                         </td>
                                     </tr>
