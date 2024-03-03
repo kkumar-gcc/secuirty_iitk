@@ -34,7 +34,7 @@ const submit = () => {
                     <p>Add a comment</p>
                 </div>
             </div>
-            <div class="mt-4">
+            <div class="mt-4 mb-2">
                 <form @submit.prevent="submit">
                     <div class="mb-5 mx-auto">
                         <TextInput
